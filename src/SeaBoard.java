@@ -1,234 +1,79 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class SeaBoard {
-    private String[][] field = new String[10][10];
-
-    public String[][] getField() {
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
-                if (j == field[i].length - 1) {
-                    System.out.print(field[i][j]);
-                    System.out.println();
-                } else {
-                    System.out.print(field[i][j]);
+public class SeaBoard{
+    private String[][] field;
+    public SeaBoard(){
+        field = new String[10][10];
+        for(int i = 0;i<10;i++){
+            for(int j=0;j<10;j++){
+                field[i][j] = ".";
+            }
+        }
+        for(int i = 0; i < getField().length; i++){
+            for(int j = 0; j < getField()[0].length; j++){
+                System.out.print(getField()[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+    String[][] getField(){
+        String[][] result = new String[10][10];
+        for(int i = 0;i<10;i++){
+            for(int j=0;j<10;j++){
+                if(field[i][j].equals("X")){
+                    result[i][j] = "x";
+                }else {
+                    result[i][j] = field[i][j];
                 }
             }
         }
-        return field;
+        return result;
     }
 
-    public void shoot(int line, int column, String issue) {
-        if (issue.equals("m")) {
+    String check(int line, int column){
+        if(field[line][column].equals("X")){
+            return "x";
+        }
+        return field[line][column];
+    }
+
+    void shoot(int line, int column, String issue){
+        if(issue.equals("m")){
             field[line][column] = "#";
-        } else if (issue.equals("h")) {
-            field[line][column] = "x";
-        } else if (issue.equals("d")) {
-            field[line][column] = "x";
-//            for (int i = column; i < field.length; i++) {
-//                if (field[line][i].equals("x")) {
-//                    if (line != 0 && line != 9) {
-//                        field[line - 1][i] = "#";
-//                        field[line + 1][i] = "#";
-//                    } else if (line == 0) {
-//                        field[line + 1][i] = "#";
-//                    } else {
-//                        field[line - 1][i] = "#";
-//                    }
-//                } else if (field[line][i].equals(".")||field[line][i].equals("#")) {
-//                    if (line == 0 && i == 0) {
-//                        field[1][1] = field[0][1] = "#";
-//                        break;
-//                    } else if (line == 0 && i != 0 && i != 9) {
-//                        field[line + 1][i] = "#";
-//                        field[line][i] = "#";
-//                        field[line + 1][i-1] = "#";
-//                        break;
-//                    } else if (line == 0 && i == 9) {
-//                        field[line + 1][i] = "#";
-//                        break;
-//                    } else if (line == 9 && i == 0) {
-//                        field[8][0] = field[8][1] = field[9][1] = "#";
-//                        break;
-//                    } else if (line == 9 && i == 9) {
-//                        field[8][9] = "#";
-//                        break;
-//                    } else if (line != 0 && i != 0) {
-//                        field[line - 1][i] = "#";
-//                        field[line + 1][i] = "#";
-//                        field[line][i] = "#";
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            for (int i = column; i >=0; i--) {
-//                if (field[line][i].equals("x")) {
-//                    if (line != 0 && line != 9) {
-//                        field[line - 1][i] = "#";
-//                        field[line + 1][i] = "#";
-//                    } else if (line == 0) {
-//                        field[line + 1][i] = "#";
-//                    } else {
-//                        field[line - 1][i] = "#";
-//                    }
-//                } else if (field[line][i].equals(".")||field[line][i].equals("#")) {
-//                    if (line == 0 && i == 0) {
-//                        field[1][0] = "#";
-//                        break;
-//                    } else if (line == 0 && i != 0 && i != 9) {
-//                        field[line + 1][i] = "#";
-//                        field[line][i] = "#";
-//                        field[line + 1][i+1] = "#";
-//                        break;
-//                    } else if (line == 0 && i == 9) {
-//                        field[line + 1][i] = "#";
-//                        field[line+1][i-1] = "#";
-//                        field[line][i] = "#";
-//                        break;
-//                    } else if (line == 9 && i == 0) {
-//                        field[8][0] = field[8][1] = field[9][1] = "#";
-//                        break;
-//                    } else if (line == 9 && i == 9) {
-//                        field[8][9] = "#";
-//                        field[8][8] = "#";
-//                        field[9][8] = "#";
-//                        break;
-//                    } else if (line != 0 && i != 0) {
-//                        field[line - 1][i] = "#";
-//                        field[line + 1][i] = "#";
-//                        field[line][i] = "#";
-//                        break;
-////                    }
-//                }
-//            }
-//            for (int i = line; i <field[0].length; i++) {
-//                if (field[i][column].equals("x")) {
-//                    if (column != 0 && column != 9) {
-//                        field[i][column-1] = "#";
-//                        field[i][column+1] = "#";
-//                    } else if (column == 0) {
-//                        field[i][column+1] = "#";
-//                    } else {
-//                        field[i][column-1] = "#";
-//                    }
-//                } else if (field[i][column].equals(".")||field[i][column].equals("#")) {
-//                    if (i == 0 && column == 0) {
-//                        field[1][0] = "#";
-//                        break;
-//                    } else if (i == 0 && column != 0 && column != 9) {
-//                        field[i+1][column] = "#";
-////                        field[line][i] = "#";
-////                        field[line + 1][i+1] = "#";
-//                        break;
-//                    } else if (i == 0 && column == 9) {
-//                        field[i + 1][i] = "#";
-////                        field[line+1][i-1] = "#";
-////                        field[line][i] = "#";
-//                        break;
-//                    } else if (i == 9 && column == 0) {
-//                        field[8][0] = "#";
-//                        break;
-//                    } else if (line == 9 && i == 9) {
-//                        field[8][9] = "#";
-////                        field[8][8] = "#";
-////                        field[9][8] = "#";
-//                        break;
-//                    } else if (line != 0 && i != 0) {
-////                        field[line - 1][i] = "#";
-////                        field[line + 1][i] = "#";
-//                        field[i][column] = "#";
-//                        break;
-//                    }
-//                }
-//            }
-            for (int i = column; i < field.length; i++) {
-                if (field[line][i].equals("#") || field[line][i].equals(".")) {
-                    if (line == 0) {
-                        field[line][i] = "#";
-                        field[line + 1][i] = "#";
-                        break;
-                    } else if (line == 9) {
-                        field[line][i] = "#";
-                        field[line - 1][i] = "#";
-                        break;
-                    } else {
-                        field[line + 1][i] = "#";
-                        field[line][i] = "#";
-                        field[line - 1][i] = "#";
-                        break;
-                    }
-                }
-            }
-            for (int i = column; i >= 0; i--) {
-                if (field[line][i].equals("#") || field[line][i].equals(".")) {
-                    if (line == 0) {
-                        field[line][i] = "#";
-                        field[line + 1][i] = "#";
-                        break;
-                    } else if (line == 9) {
-                        field[line][i] = "#";
-                        field[line - 1][i] = "#";
-                        break;
-                    } else {
-                        field[line + 1][i] = "#";
-                        field[line][i] = "#";
-                        field[line - 1][i] = "#";
-                        break;
-                    }
-                }
-            }
-            for (int i = line; i < field[0].length; i++) {
-                if (field[i][column].equals("#") || field[i][column].equals(".")) {
-                    field[i][column] = "#";
-                    break;
-                }
-            }
-            for (int i = line; i >= 0; i--) {
-                if (field[i][column].equals("#") || field[i][column].equals(".")) {
-                    field[i][column] = "#";
-                    break;
-                }
-            }
-            for (int i = line; i < field.length; i++) {
-                if (i != 0 && i != 9) {
-                    if (field[i][column].equals("x") && !field[i + 1][column].equals("x") && !field[i - 1][column].equals("x")) {
-                        field[i + 1][column] = "#";
-                        field[i - 1][column] = "#";
-                        break;
-                    } else if (field[i][column].equals("x") && field[i + 1][column].equals("x")) {
-                        field[i - 1][column] = "#";
-                        break;
-                    } else if (field[i][column].equals("x") && field[i - 1][column].equals("x")) {
-                        field[i + 1][column] = "#";
-                        break;
-                    }
-                } else if (i == 0) {
-                    if (field[i][column].equals("x") && !field[i + 1][column].equals("x")) {
-                        field[i + 1][column] = "#";
-                        break;
-                    } else {
-                        if (field[i][column].equals("x") && !field[i - 1][column].equals("x")) {
-                            field[i - 1][column] = "#";
-                            break;
-                        }
-                    }
-                }
-            }
+        }else if(issue.equals("h")){
+            field[line][column] = "X";
+        }else{
+            field[line][column] = "X";
+            sink(line, column);
         }
-        getField();
     }
 
-
+    private void sink (int line, int column){
+        int[][] commands = new int[][]{{line - 1, column}, {line + 1, column}, {line, column-1}, {line, column+1}, {line - 1, column-1}, {line - 1, column + 1}, {line + 1, column-1}, {line + 1, column + 1},};
+        for(int[] i : commands){
+            if(0 <= i[0] && i[0] <= 9 && 0 <= i[1] && i[1] <= 9 && field[i[0]][i[1]].equals(".")){
+                field[i[0]][i[1]] = "#";
+            }
+        }
+        field[line][column] = "x";
+        for(int[] i : commands){
+            if(0 <= i[0] && i[0] <= 9 && 0 <= i[1] && i[1] <= 9 && field[i[0]][i[1]].equals("X")){
+                sink(i[0], i[1]);
+            }
+        }
+    }
     public static void main(String[] args) {
-        SeaBoard seaBoard = new SeaBoard();
-        for (int i = 0; i < seaBoard.field.length; i++) {
-            Arrays.fill(seaBoard.field[i], ".");
-        }
-        seaBoard.getField();
+        SeaBoard board = new SeaBoard();
         Scanner sc = new Scanner(System.in);
-        while (sc.hasNext()) {
-            seaBoard.shoot(sc.nextInt(), sc.nextInt(), sc.next());
+        while (sc.hasNext()){
+            board.shoot(sc.nextInt(),sc.nextInt(),sc.next());
+            for(int i = 0; i < board.getField().length; i++){
+                for(int j = 0; j < board.getField()[0].length; j++){
+                    System.out.print(board.getField()[i][j] + " ");
+                }
+                System.out.println();
+            }
         }
+
     }
 }
